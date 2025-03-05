@@ -1,10 +1,11 @@
-name: Run Python Script
+name: Run Python Password Script
 
 on: [push]
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,5 +18,11 @@ jobs:
       - name: Install dependencies
         run: pip install bcrypt
 
-      - name: Run Python script
-        run: python hash_passwords.py
+      - name: Register a user
+        run: python hash_passwords.py register "testuser" "Test@123"
+
+      - name: Attempt login with correct password
+        run: python hash_passwords.py login "testuser" "Test@123"
+
+      - name: Attempt login with incorrect password
+        run: python hash_passwords.py login "testuser" "WrongPass"
